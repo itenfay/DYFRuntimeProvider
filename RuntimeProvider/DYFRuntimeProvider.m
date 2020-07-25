@@ -1,8 +1,8 @@
 //
 //  DYFRuntimeProvider.m
 //
-//  Created by dyf on 2014/11/4.
-//  Copyright © 2014 dyf.
+//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
+//  Copyright © 2014 dyf. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -170,8 +170,8 @@ static Class _rtpClass = nil;
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:0];
         
         for (NSString *key in properties) {
-            id value = [model valueForKey: key];
-            dict[key] = value;
+            id value = [model valueForKey:key];
+            dict[key] = value ?? @"null";
         }
         
         return dict.copy;
