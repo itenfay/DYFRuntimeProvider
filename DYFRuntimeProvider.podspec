@@ -25,7 +25,6 @@ Pod::Spec.new do |spec|
 
 
   spec.platform     = :ios
-  # spec.platform   = :ios, "5.0"
 
   spec.ios.deployment_target = "7.0"
   # spec.osx.deployment_target = "10.7"
@@ -51,7 +50,7 @@ Pod::Spec.new do |spec|
   # spec.libraries = "iconv", "xml2"
 
 
-  # spec.requires_arc = true
+  spec.requires_arc = true
 
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
