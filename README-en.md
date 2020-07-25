@@ -25,10 +25,9 @@ If this project can help you, please give it [a star](https://github.com/dgynfi/
 Using [CocoaPods](https://cocoapods.org):
 
 ```
-use_frameworks!
 target 'Your target name'
 
-pod 'DYFSwiftRuntimeProvider', '~> 1.0.0'
+pod 'DYFRuntimeProvider', '~> 1.0.0'
 ```
 
 
