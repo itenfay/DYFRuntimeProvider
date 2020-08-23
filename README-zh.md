@@ -1,43 +1,37 @@
-## [Chinese Document](https://github.com/dgynfi/DYFRuntimeProvider)
-
-
-If this project can help you, please give it [a star](https://github.com/dgynfi/DYFRuntimeProvider/blob/master/README-en.md). Thanks!
-
-
 ## DYFRuntimeProvider
 
-`DYFRuntimeProvider` wraps the runtime, and can quickly use for the transformation of the dictionary and model, archiving and unarchiving, adding a method, exchanging two methods, replacing a method, and getting all the variable names, property names and method names of a class.
+`DYFRuntimeProvider`包装了 Runtime，可以快速用于字典和模型的转换、存档和解档、添加方法、交换两个方法、替换方法以及获取类的所有变量名、属性名和方法名。
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE)&nbsp;
 [![CocoaPods Version](http://img.shields.io/cocoapods/v/DYFRuntimeProvider.svg?style=flat)](http://cocoapods.org/pods/DYFRuntimeProvider)&nbsp;
 ![CocoaPods Platform](http://img.shields.io/cocoapods/p/DYFRuntimeProvider.svg?style=flat)&nbsp;
 
 
-## Group (ID:614799921)
+## QQ群 (ID:614799921)
 
 <div align=left>
 &emsp; <img src="https://github.com/dgynfi/DYFRuntimeProvider/raw/master/images/g614799921.jpg" width="30%" />
 </div>
 
 
-## Installation
+## 安装
 
-Using [CocoaPods](https://cocoapods.org):
+使用 [CocoaPods](https://cocoapods.org):
 
-```
+``` 
 target 'Your target name'
 
-pod 'DYFRuntimeProvider', '~> 1.0.1'
+pod 'DYFRuntimeProvider', '~> 1.0.2'
 ```
 
 
-## Usage
+## 使用
 
-Add `#import "DYFRuntimeProvider.h"` to your source code.
+将 `#import "DYFRuntimeProvider.h"` 添加到源代码中。
 
-### Gets all the method names of a class
+### 获取某类的所有方法名
 
-**1. Gets all method names of an instance**
+**1. 获取实例的所有方法名**
 
 ```
 NSArray *methodNames = [DYFRuntimeProvider methodListWithClass:UITableView.class];
@@ -46,16 +40,16 @@ for (NSString *name in methodNames) {
 }
 ```
 
-**2. Gets all method names of a class**
+**2. 获取类的所有方法名**
 
 ```
 NSArray *clsMethodNames = [DYFRuntimeProvider classMethodList:self];
 for (NSString *name in clsMethodNames) {
     NSLog("The class method name: %@", name);
 }
-```
+``` 
 
-### Gets all variable names of a class
+### 获取某类所有的变量名
 
 ```
 NSArray *ivarNames = [DYFRuntimeProvider ivarListWithClass:UILabel.class];
@@ -64,7 +58,7 @@ for (NSString *name in ivarNames) {
 }
 ```
 
-### Gets all the property names of a class
+### 获取某类所有的属性名
 
 ```
 NSArray *propertyNames = [DYFRuntimeProvider propertyListWithClass:UILabel.class];
@@ -73,7 +67,7 @@ for (NSString *name in propertyNames) {
 }
 ```
 
-### Adds a method
+### 添加一个方法
 
 ```
 + (void)load {
@@ -94,7 +88,7 @@ for (NSString *name in propertyNames) {
 }
 ```
 
-### Exchanges two methods
+### 交换两个方法
 
 ```
 - (void)viewDidLoad {
@@ -115,7 +109,7 @@ for (NSString *name in propertyNames) {
 }
 ```
 
-### Replaces a method
+### 替换一个方法
 
 ```
 - (void)viewDidLoad {
@@ -136,25 +130,25 @@ for (NSString *name in propertyNames) {
 }
 ```
 
-### The transformation of dictionary and model
+### 字典和模型互转
 
-**1. Converts the dictionary to model**
+**1. 字典转模型**
 
 ```
 // e.g.: DYFStoreTransaction: NSObject
 DYFStoreTransaction *transaction = [DYFRuntimeProvider modelWithDictionary:dict forClass:DYFStoreTransaction.class];
 ```
 
-**2. Converts the model to dictionary**
+**2. 模型转字典**
 
 ```
 DYFStoreTransaction *transaction = [[DYFStoreTransaction alloc] init];
 NSDictionary *dict = [DYFRuntimeProvider dictionaryWithModel:transaction];
 ```
 
-### Archives and unarchives
+### 归档解档
 
-**1. Archives**
+**1. 归档**
 
 ```
 - (void)viewDidLoad {
@@ -187,7 +181,7 @@ Or
 @end
 ```
 
-**2. Unarchives**
+**2. 解档**
 
 ```
 - (void)viewDidLoad {
@@ -224,11 +218,11 @@ Or
 ```
 
 
-## Demo
+## 演示
 
-`DYFRuntimeProvider` is learned how to use under this [Demo](https://github.com/dgynfi/DYFStoreKit).
+`DYFRuntimeProvider` 在此 [演示](https://github.com/dgynfi/DYFStoreKit) 下学习如何使用。
 
 
-## Feedback is welcome
+## 欢迎反馈
 
-If you notice any issue, got stuck or just want to chat feel free to create an issue. I will be happy to help you.
+如果你注意到任何问题，被卡住或只是想聊天，请随意制造一个问题。我乐意帮助你。
