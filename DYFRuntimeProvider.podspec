@@ -3,11 +3,11 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "DYFRuntimeProvider"
-  spec.version      = "1.0.2"
+  spec.version      = "1.0.3"
   spec.summary      = "DYFRuntimeProvider wraps the runtime.(Objective-C)"
 
   spec.description  = <<-DESC
-	DYFRuntimeProvider wraps the runtime, and can quickly use for the transformation of the dictionary and model, archiving and unarchiving, adding a method, exchanging two methods, replacing a method, and getting all the variable names, property names and method names of a class.
+	    DYFRuntimeProvider wraps the runtime, and can quickly use for the transformation of the dictionary and model, archiving and unarchiving, adding a method, exchanging two methods, replacing a method, and getting all the variable names, property names and method names of a class.
 
                    DESC
 
