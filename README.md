@@ -23,7 +23,7 @@ Using [CocoaPods](https://cocoapods.org):
 ```
 target 'Your target name'
 
-pod 'DYFRuntimeProvider', '~> 1.0.2'
+pod 'DYFRuntimeProvider', '~> 1.0.3'
 ```
 
 
