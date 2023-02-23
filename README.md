@@ -1,6 +1,6 @@
 ## DYFRuntimeProvider
 
-`DYFRuntimeProvider` wraps the runtime, and can quickly use for the transformation of the dictionary and model, archiving and unarchiving, adding a method, exchanging two methods, replacing a method, and getting all the variable names, property names and method names of a class.
+`DYFRuntimeProvider` wraps the runtime of Objective-C, and provides some common usages.
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE)&nbsp;
 [![CocoaPods Version](http://img.shields.io/cocoapods/v/DYFRuntimeProvider.svg?style=flat)](http://cocoapods.org/pods/DYFRuntimeProvider)&nbsp;
@@ -12,7 +12,7 @@
 ## Group (ID:614799921)
 
 <div align=left>
-&emsp; <img src="https://github.com/dgynfi/DYFRuntimeProvider/raw/master/images/g614799921.jpg" width="30%" />
+&emsp; <img src="https://github.com/chenxing640/DYFRuntimeProvider/raw/master/images/g614799921.jpg" width="30%" />
 </div>
 
 
@@ -23,7 +23,9 @@ Using [CocoaPods](https://cocoapods.org):
 ```
 target 'Your target name'
 
-pod 'DYFRuntimeProvider', '~> 1.0.3'
+pod 'DYFRuntimeProvider'
+or
+pod 'DYFRuntimeProvider', '~> 2.0.1'
 ```
 
 
@@ -33,102 +35,154 @@ Add `#import "DYFRuntimeProvider.h"` to your source code.
 
 ### Gets all the method names of a class
 
-**1. Gets all method names of an instance**
+**1. Gets all method names of an instance of a class**
 
 ```
-NSArray *methodNames = [DYFRuntimeProvider methodListWithClass:UITableView.class];
-for (NSString *name in methodNames) {
-    NSLog("The method name: %@", name);
-}
+NSArray *instMethods = [DYFRuntimeProvider supplyMethodListWithClass:UITableView.class];
+NSLog(@"========instMethods: %@", instMethods);
 ```
 
-**2. Gets all method names of a class**
+**2. Gets all class method names of a class**
 
 ```
-NSArray *clsMethodNames = [DYFRuntimeProvider classMethodList:self];
-for (NSString *name in clsMethodNames) {
-    NSLog("The class method name: %@", name);
-}
+NSArray *clsMethods = [DYFRuntimeProvider supplyClassMethodListWithClass:UIView.class];
+NSLog(@"========clsMethods: %@", clsMethods);
 ```
 
 ### Gets all variable names of a class
 
 ```
-NSArray *ivarNames = [DYFRuntimeProvider ivarListWithClass:UILabel.class];
-for (NSString *name in ivarNames) {
-    NSLog("The var name: %@", name);
-}
+NSArray *ivars = [DYFRuntimeProvider supplyIvarListWithClass:UIButton.class];
+NSLog(@"========ivars: %@", ivars);
 ```
 
 ### Gets all the property names of a class
 
 ```
-NSArray *propertyNames = [DYFRuntimeProvider propertyListWithClass:UILabel.class];
-for (NSString *name in propertyNames) {
-    NSLog("The property name: %@", name);
+NSArray *properties = [DYFRuntimeProvider supplyPropertyListWithClass:UIButton.class];
+NSLog(@"========properties: %@", properties);
+```
+
+Take this class as an example. e.g.:
+
+```
+@interface Teacher : NSObject
+@property (nonatomic, assign) NSInteger age;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *address;
+
+- (void)eatWithFoods:(NSDictionary *)foods;
+- (void)runWithStep:(NSInteger)step;
+- (void)run2WithStep:(NSInteger)step;
+
++ (void)decInfo:(NSString *)name age:(NSInteger)age;
++ (void)decInfo2:(NSString *)name age:(NSInteger)age;
+
+@end
+
+@implementation Teacher
+
+- (void)eatWithFoods:(NSDictionary *)foods
+{
+    NSLog(@"========%@ eat foods: %@", _name, foods);
+}
+
+- (void)runWithStep:(NSInteger)step
+{
+    NSLog(@"========%s 1 %@ runs %ld steps", __func__, _name, step);
+}
+
+- (void)run2WithStep:(NSInteger)step
+{
+    NSLog(@"========%s 2 %@ runs %ld steps", __func__, _name, step);
+}
+
++ (void)decInfo:(NSString *)name age:(NSInteger)age
+{
+    NSLog(@"========decInfo name: %@, age: %ld", name, age);
+}
+
++ (void)decInfo2:(NSString *)name age:(NSInteger)age
+{
+    NSLog(@"========decInfo2 name: %@, age: %ld", name, age);
 }
 ```
 
 ### Adds a method
 
 ```
-+ (void)load {
-    [DYFRuntimeProvider addMethodWithClass:self.class selector:NSSelectorFromString(@"verifyCode") impClass:self.class impSelector:@selector(verifyQRCode)];
+void rt_eatWithFoods2(id self, SEL _cmd, NSDictionary *foods)
+{
+    NSLog(@"========%@, %@ eat foods: %@", self, NSStringFromSelector(_cmd), foods);
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    [self performSelector:NSSelectorFromString(@"verifyCode")];
-#pragma clang diagnostic pop
-}
-
-- (void)verifyQRCode {
-    NSLog(@"Verifies QRCode");
+    SEL eatSel = NSSelectorFromString(@"rt_eatWithFoods:");
+    [DYFRuntimeProvider addMethodWithClass:Teacher.class selector:eatSel impSelector:@selector(eatWithFoods:)];
+    
+    SEL eatSel2 = NSSelectorFromString(@"eatWithFoods2:");
+    [DYFRuntimeProvider addMethodWithClass:Teacher.class selector:eatSel2 imp:(IMP)rt_eatWithFoods2 types:"v@:@"];
+    
+    Teacher *teacher = [[Teacher alloc] init];
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    if ([teacher respondsToSelector:eatSel]) {
+        [teacher performSelector:eatSel withObject:@{@"name": @"meat", @"number": @1}];
+    }
+    
+    if ([teacher respondsToSelector:eatSel2]) {
+        [teacher performSelector:eatSel2 withObject:@{@"name": @"meat", @"number": @1}];
+    }
+    #pragma clang diagnostic pop
 }
 ```
 
 ### Exchanges two methods
 
 ```
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
+    [DYFRuntimeProvider exchangeMethodWithClass:Teacher.class selector:@selector(runWithStep:) anotherSelector:@selector(run2WithStep:)];
+    Teacher *teacher = [[Teacher alloc] init];
+    [teacher runWithStep:50];
+    [teacher run2WithStep:100];
     
-    [DYFRuntimeProvider exchangeMethodWithClass:self.class selector:@selector(verifyCode1) targetClass:self.class targetSelector:@selector(verifyQRCode)];
-    
-    [self verifyCode1];
-    [self verifyQRCode];
-}
-
-- (void)verifyCode1 {
-    NSLog(@"Verifies Code1");
-}
-
-- (void)verifyQRCode {
-    NSLog(@"Verifies QRCode");
+    [DYFRuntimeProvider exchangeClassMethodWithClass:Teacher.class selector:@selector(decInfo:age:) anotherSelector:@selector(decInfo2:age:)];
+    [Teacher decInfo:@"David" age:40];
+    [Teacher decInfo2:@"Liming" age:28];
 }
 ```
 
 ### Replaces a method
 
 ```
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
-    
-    [DYFRuntimeProvider replaceMethodWithClass:self.class selector:@selector(verifyCode2) targetClass:self.class targetSelector:@selector(verifyQRCode)];
-    
-    [self verifyCode2];
-    [self verifyQRCode];
+    [DYFRuntimeProvider replaceMethodWithClass:Teacher.class selector:@selector(runWithStep:) targetSelector:@selector(run2WithStep:)];
+    Teacher *teacher = [[Teacher alloc] init];
+    [teacher runWithStep:50];
+    [teacher run2WithStep:100];
 }
+```
 
-- (void)verifyCode2 {
-    NSLog(@"Verifies Code2");
-}
+### Swizzle two methods
 
-- (void)verifyQRCode {
-    NSLog(@"Verifies QRCode");
+```
+- (void)viewDidLoad 
+{
+    [super viewDidLoad];
+    [DYFRuntimeProvider swizzleMethodWithClass:Teacher.class selector:@selector(runWithStep:) swizzledSelector:@selector(run2WithStep:)];
+    Teacher *teacher = [[Teacher alloc] init];
+    [teacher runWithStep:50];
+    [teacher run2WithStep:100];
+    
+    [DYFRuntimeProvider swizzleClassMethodWithClass:Teacher.class selector:@selector(decInfo:age:) swizzledSelector:@selector(decInfo2:age:)];
+    [Teacher decInfo:@"David" age:40];
+    [Teacher decInfo2:@"Liming" age:28];
 }
 ```
 
@@ -137,46 +191,79 @@ for (NSString *name in propertyNames) {
 **1. Converts the dictionary to model**
 
 ```
-// e.g.: DYFStoreTransaction: NSObject
-DYFStoreTransaction *transaction = [DYFRuntimeProvider modelWithDictionary:dict forClass:DYFStoreTransaction.class];
+Teacher *teacher = (Teacher *)[DYFRuntimeProvider asObjectWithDictionary:@{@"name": @"高粟", @"age": @26, @"address": @"xx市xx"} forClass:Teacher.class];
+if (teacher) {
+    NSLog(@"========teacher: %@, %@, %ld, %@", teacher, teacher.name, (long)teacher.age, teacher.address);
+}
+
+Teacher *teacher2 = [[Teacher alloc] init];
+[DYFRuntimeProvider asObjectWithDictionary:@{@"name": @"高粟", @"age": @26, @"address": @"xx市xx"} forObject:teacher2];
+NSLog(@"========teacher2: %@, %@, %ld, %@", teacher2, teacher2.name, (long)teacher2.age, teacher2.address);
 ```
 
 **2. Converts the model to dictionary**
 
 ```
-DYFStoreTransaction *transaction = [[DYFStoreTransaction alloc] init];
-NSDictionary *dict = [DYFRuntimeProvider dictionaryWithModel:transaction];
+NSDictionary *dict = [DYFRuntimeProvider asDictionarywithObject:teacher];
+NSLog(@"========dict: %@", dict);
 ```
 
 ### Archives and unarchives
 
+Take this class as an example. e.g.:
+
+```
+@interface Transaction : NSObject <NSCoding>
+@property (nonatomic, assign) NSUInteger state;
+@property (nonatomic, copy) NSString *productIdentifier;
+@property (nonatomic, copy) NSString *userIdentifier;
+@property (nonatomic, copy) NSString *originalTransactionTimestamp;
+@end
+
+@implementation Transaction
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        [DYFRuntimeProvider decode:aDecoder forObject:self];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+ {
+    [DYFRuntimeProvider encode:aCoder forObject:self];
+}
+
+@end
+```
+
 **1. Archives**
 
 ```
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
-    
     NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) lastObject];
-    NSString *filePath = [documentPath stringByAppendingPathComponent:@"DYFStoreTransaction.data"];
-    
+    NSString *filePath = [documentPath stringByAppendingPathComponent:@"Transaction.data"];
     [self archive:filePath];
 }
 
-- (void)archive:(NSString *)path {
-    // e.g.: DYFStoreTransaction: NSObject <NSCoding>
-    DYFStoreTransaction *transaction = [[DYFStoreTransaction alloc] init];
-    [DYFRuntimeProvider archiveWithObject:transaction forClass:DYFStoreTransaction.class toFile:path];
+- (void)archive:(NSString *)path 
+{
+    Transaction *transaction = [[Transaction alloc] init];
+    [DYFRuntimeProvider archiveWithObject:transaction forClass:Transaction.class toFile:path];
 }
 ```
 
 Or
 
 ```
-// e.g.: DYFStoreTransaction: NSObject <NSCoding>
+@implementation Transaction
 
-@implementation DYFStoreTransaction
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
+- (void)encodeWithCoder:(NSCoder *)aCoder 
+{
     [DYFRuntimeProvider encode:aCoder forObject:self];
 }
 
@@ -186,29 +273,27 @@ Or
 **2. Unarchives**
 
 ```
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
-    
     NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) lastObject];
-    NSString *filePath = [documentPath stringByAppendingPathComponent:@"YFModel.plist"];
-    
+    NSString *filePath = [documentPath stringByAppendingPathComponent:@"Transaction.data"];
     [self unarchive:filePath];
 }
 
-- (void)unarchive:(NSString *)path {
-    // e.g.: DYFStoreTransaction: NSObject <NSCoding>
-    DYFStoreTransaction *transaction = [DYFRuntimeProvider unarchiveWithFile:path forClass:DYFStoreTransaction.class];
+- (void)unarchive:(NSString *)path 
+{
+    Transaction *transaction = [DYFRuntimeProvider unarchiveWithFile:path forClass:Transaction.class];
 }
 ```
 
 Or
 
 ```
-// e.g.: DYFStoreTransaction: NSObject <NSCoding>
+@implementation Transaction
 
-@implementation DYFStoreTransaction
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
     self = [super init];
     if (self) {
         [DYFRuntimeProvider decode:aDecoder forObject:self];
@@ -219,12 +304,59 @@ Or
 @end
 ```
 
+### Add a catogory property
 
-## Demo
+```
+@interface UIApplication (Pt)
+@property (nonatomic, strong) Teacher *teacher;
+@end
 
-`DYFRuntimeProvider` is learned how to use under this [Demo](https://github.com/dgynfi/DYFStoreKit).
+static NSString *kTeacherKey = @"TeacherKey";
+
+@implementation UIApplication (Pt)
+
+- (Teacher *)teacher
+{
+    return (Teacher *)[DYFRuntimeProvider getAssociatedObject:self key:&kTeacherKey];
+}
+
+- (void)setTeacher:(Teacher *)teacher
+{
+    [DYFRuntimeProvider setAssociatedObject:self key:&kTeacherKey value:teacher policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+}
+
+@end
+```
+
+```
+- (void)viewDidLoad 
+{
+    [super viewDidLoad];
+    Teacher *teacher2 = [[Teacher alloc] init];
+    [DYFRuntimeProvider asObjectWithDictionary:@{@"name": @"高粟", @"age": @26, @"address": @"xx市xx"} forObject:teacher2];
+    UIApplication.sharedApplication.teacher = teacher2;
+    NSLog(@"========teacher: %@", UIApplication.sharedApplication.teacher);
+}
+```
+
+
+### Get and modify instance variable property.
+
+```
+Teacher *teacher = (Teacher *)[DYFRuntimeProvider asObjectWithDictionary:@{@"name": @"高粟", @"age": @26, @"address": @"xx市xx"} forClass:Teacher.class];
+NSString *teacherName = [DYFRuntimeProvider getInstanceVarWithName:@"_name" forObject:teacher];
+NSLog(@"========teacher name: %@", teacherName);
+[DYFRuntimeProvider setInstanceVarWithName:@"_name" value:@"李想" forObject:teacher];
+NSLog(@"========teacher newName: %@", teacher.name);
+```
+
+
+<!-- ## Demo
+
+`DYFRuntimeProvider` is learned how to use under this [Demo](https://github.com/chenxing640/DYFStoreKit).
+-->
 
 
 ## Feedback is welcome
 
-If you notice any issue, got stuck or just want to chat feel free to create an issue. I will be happy to help you.
+If you notice any issue, got stuck to create an issue. I will be happy to help you.
