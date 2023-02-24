@@ -258,7 +258,7 @@
 + (id)asObjectWithDictionary:(NSDictionary *)dictionary forObject:(id)object;
 
 /**
- Converts a object to a corresponding dictionary whose elements are key-value pairs.
+ Converts an object to a corresponding dictionary whose elements are key-value pairs.
  
  @param object A NSObject object.
  @return A corresponding dictionary.
