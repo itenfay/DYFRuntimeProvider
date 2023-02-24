@@ -23,7 +23,7 @@ target 'Your target name'
 
 pod 'DYFRuntimeProvider'
 or
-pod 'DYFRuntimeProvider', '~> 2.0.1'
+pod 'DYFRuntimeProvider', '~> 2.0.2'
 ```
 
 
