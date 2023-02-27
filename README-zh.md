@@ -23,7 +23,7 @@ target 'Your target name'
 
 pod 'DYFRuntimeProvider'
 or
-pod 'DYFRuntimeProvider', '~> 2.0.2'
+pod 'DYFRuntimeProvider', '~> 2.0.2.1'
 ```
 
 
@@ -202,7 +202,7 @@ NSLog(@"========teacher2: %@, %@, %ld, %@", teacher2, teacher2.name, (long)teach
 **2. 模型转字典**
 
 ```
-NSDictionary *dict = [DYFRuntimeProvider asDictionarywithObject:teacher];
+NSDictionary *dict = [DYFRuntimeProvider asDictionaryWithObject:teacher];
 NSLog(@"========dict: %@", dict);
 ```
 

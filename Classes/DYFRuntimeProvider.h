@@ -258,12 +258,12 @@
 + (id)asObjectWithDictionary:(NSDictionary *)dictionary forObject:(id)object;
 
 /**
- Converts an object to a corresponding dictionary whose elements are key-value pairs.
+ Converts a object to a corresponding dictionary whose elements are key-value pairs.
  
- @param object A NSObject object.
+ @param model A NSObject object.
  @return A corresponding dictionary.
  */
-+ (NSDictionary *)asDictionarywithObject:(id)object;
++ (NSDictionary *)asDictionaryWithObject:(id)object;
 
 /**
  Encodes an object using a given archiver.
@@ -285,7 +285,7 @@
  Sets an associated value for a given object using a given key and association policy.
  
  @param object The source object for the association.
- @param key The key for the association.
+ @param obj The key for the association.
  @param value The key for the association.
  @param policy The policy for the association. For possible values, see [objc_AssociationPolicy]().
  */

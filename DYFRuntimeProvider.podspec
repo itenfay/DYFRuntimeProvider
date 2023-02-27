@@ -2,7 +2,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "DYFRuntimeProvider"
-  spec.version      = "2.0.2"
+  spec.version      = "2.0.2.1"
   spec.summary      = "DYFRuntimeProvider wraps the runtime of Objective-C, and provides some common usages."
 
   spec.description  = <<-DESC

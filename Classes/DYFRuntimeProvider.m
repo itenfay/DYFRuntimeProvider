@@ -236,7 +236,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
     return object;
 }
 
-+ (NSDictionary *)asDictionarywithObject:(id)object
++ (NSDictionary *)asDictionaryWithObject:(id)object
 {
     NSArray *properties = [self supplyPropertyListWithClass:object_getClass(object)];
     if (properties.count > 0) {
