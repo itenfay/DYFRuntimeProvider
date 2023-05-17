@@ -348,10 +348,9 @@ NSLog(@"========teacher newName: %@", teacher.name);
 ```
 
 
-<!-- ## 演示
+## 演示
 
-`DYFRuntimeProvider` 在此 [演示](https://github.com/chenxing640/DYFStoreKit) 下学习如何使用。
--->
+`DYFRuntimeProvider` 在此 [演示](https://github.com/chenxing640/DYFSwiftRuntimeProvider/raw/master/Example) 下学习如何使用。
 
 
 ## 欢迎反馈

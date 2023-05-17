@@ -351,10 +351,9 @@ NSLog(@"========teacher newName: %@", teacher.name);
 ```
 
 
-<!-- ## Demo
+## Demo
 
-`DYFRuntimeProvider` is learned how to use under this [Demo](https://github.com/chenxing640/DYFStoreKit).
--->
+`DYFRuntimeProvider` is learned how to use under this [Demo](https://github.com/chenxing640/DYFSwiftRuntimeProvider/raw/master/Example).
 
 
 ## Feedback is welcome
