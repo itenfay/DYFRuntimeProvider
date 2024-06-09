@@ -1,8 +1,8 @@
 //
 //  DYFRuntimeProvider.m
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFRuntimeProvider )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Tenfay on 2014/11/4. (https://github.com/itenfay/DYFRuntimeProvider)
+//  Copyright © 2014 Tenfay. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 
 @implementation DYFRuntimeProvider
 
-+ (NSArray *)supplyMethodListWithClass:(Class)cls
++ (NSArray *)getMethodListWithClass:(Class)cls
 {
     NSMutableArray *selNames = [NSMutableArray arrayWithCapacity:0];
     unsigned int count = 0;
@@ -60,12 +60,12 @@ static NSString *rt_cStringToObjcString(const char *cString) {
     return selNames.copy;
 }
 
-+ (NSArray *)supplyClassMethodListWithClass:(Class)cls
++ (NSArray *)getClassMethodListWithClass:(Class)cls
 {
-    return [self supplyMethodListWithClass:object_getClass(cls)];
+    return [self getMethodListWithClass:object_getClass(cls)];
 }
 
-+ (NSArray *)supplyIvarListWithClass:(Class)cls
++ (NSArray *)getIvarListWithClass:(Class)cls
 {
     NSMutableArray *ivarNames = [NSMutableArray arrayWithCapacity:0];
     unsigned int count = 0;
@@ -81,7 +81,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
     return ivarNames.copy;
 }
 
-+ (NSArray *)supplyPropertyListWithClass:(Class)cls
++ (NSArray *)getPropertyListWithClass:(Class)cls
 {
     NSMutableArray *propertyNames = [NSMutableArray arrayWithCapacity:0];
     unsigned int count = 0;
@@ -95,7 +95,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
     return propertyNames.copy;
 }
 
-+ (const char *)supplyMethodTypes:(Method)method
++ (const char *)getMethodTypes:(Method)method
 {
     return method_getTypeEncoding(method);
 }
@@ -122,7 +122,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 + (BOOL)addMethodWithClass:(Class)cls selector:(SEL)sel impClass:(Class)impCls impSelector:(SEL)impSel
 {
     Method m = class_getInstanceMethod(impCls, impSel);
-    const char *types = [self supplyMethodTypes:m];
+    const char *types = [self getMethodTypes:m];
     return [self addMethodWithClass:cls selector:sel impClass:impCls impSelector:impSel types:types];
 }
 
@@ -170,7 +170,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 {
     Method m = class_getInstanceMethod(targetCls, targetSel);
     IMP imp = method_getImplementation(m);
-    const char *types = [self supplyMethodTypes:m];
+    const char *types = [self getMethodTypes:m];
     class_replaceMethod(cls, sel, imp, types);
 }
 
@@ -215,7 +215,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 + (id)asObjectWithDictionary:(NSDictionary *)dictionary forClass:(Class)cls
 {
     id object = [[cls alloc] init];
-    NSArray *properties = [self supplyPropertyListWithClass:cls];
+    NSArray *properties = [self getPropertyListWithClass:cls];
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if ([properties containsObject:key]) {
             [object setValue:obj forKey:key];
@@ -227,7 +227,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 + (id)asObjectWithDictionary:(NSDictionary *)dictionary forObject:(id)object
 {
     Class cls = object_getClass(object);
-    NSArray *properties = [self supplyPropertyListWithClass:cls];
+    NSArray *properties = [self getPropertyListWithClass:cls];
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if ([properties containsObject:key]) {
             [object setValue:obj forKey:key];
@@ -238,7 +238,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 
 + (NSDictionary *)asDictionaryWithObject:(id)object
 {
-    NSArray *properties = [self supplyPropertyListWithClass:object_getClass(object)];
+    NSArray *properties = [self getPropertyListWithClass:object_getClass(object)];
     if (properties.count > 0) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:0];
         for (NSString *key in properties) {
@@ -252,7 +252,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 
 + (void)encode:(NSCoder *)encoder forObject:(NSObject *)obj
 {
-    NSArray *ivarNames = [self supplyIvarListWithClass:obj.classForCoder];
+    NSArray *ivarNames = [self getIvarListWithClass:obj.classForCoder];
     for (NSString *key in ivarNames) {
         id value = [obj valueForKey:key];
         [encoder encodeObject:value forKey:key];
@@ -261,7 +261,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 
 + (void)decode:(NSCoder *)decoder forObject:(NSObject *)obj
 {
-    NSArray *ivarNames = [self supplyIvarListWithClass:obj.classForCoder];
+    NSArray *ivarNames = [self getIvarListWithClass:obj.classForCoder];
     for (NSString *key in ivarNames) {
         id value = [decoder decodeObjectForKey:key];
         [obj setValue:value forKey:key];
@@ -330,7 +330,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 {
     _rtObject = [super init];
     if (_rtObject) {
-        NSArray *ivarNames = [DYFRuntimeProvider supplyIvarListWithClass:_rtClass];
+        NSArray *ivarNames = [DYFRuntimeProvider getIvarListWithClass:_rtClass];
         for (NSString *key in ivarNames) {
             id value = [decoder decodeObjectForKey:key];
             [_rtObject setValue:value forKey:key];
@@ -341,7 +341,7 @@ static NSString *rt_cStringToObjcString(const char *cString) {
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    NSArray *ivarNames = [DYFRuntimeProvider supplyIvarListWithClass:_rtClass];
+    NSArray *ivarNames = [DYFRuntimeProvider getIvarListWithClass:_rtClass];
     for (NSString *key in ivarNames) {
         id value = [_rtObject valueForKey:key];
         [encoder encodeObject:value forKey:key];

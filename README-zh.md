@@ -2,7 +2,7 @@
 
 ## DYFRuntimeProvider
 
-`DYFRuntimeProvider`包装了Objective-C的运行时，并提供了一些常见的用法([Swift Version](https://github.com/chenxing640/DYFSwiftRuntimeProvider))。
+`DYFRuntimeProvider`包装了运行时，并提供了一些常见的用法([Swift Version](https://github.com/itenfay/DYFSwiftRuntimeProvider))。
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE)&nbsp;
 [![CocoaPods Version](http://img.shields.io/cocoapods/v/DYFRuntimeProvider.svg?style=flat)](http://cocoapods.org/pods/DYFRuntimeProvider)&nbsp;
@@ -12,7 +12,7 @@
 ## QQ群 (ID:614799921)
 
 <div align=left>
-&emsp; <img src="https://github.com/chenxing640/DYFRuntimeProvider/raw/master/images/g614799921.jpg" width="30%" />
+&emsp; <img src="https://github.com/itenfay/DYFRuntimeProvider/raw/master/images/g614799921.jpg" width="30%" />
 </div>
 
 
@@ -21,13 +21,14 @@
 使用 [CocoaPods](https://cocoapods.org):
 
 ``` 
-target 'Your target name'
-
 pod 'DYFRuntimeProvider'
-or
-pod 'DYFRuntimeProvider', '~> 2.0.2.1'
 ```
 
+Or
+
+```
+pod 'DYFRuntimeProvider', '~> 2.1.0'
+```
 
 ## 使用
 
@@ -38,28 +39,28 @@ pod 'DYFRuntimeProvider', '~> 2.0.2.1'
 **1. 获取一个类的实例的所有方法名**
 
 ```
-NSArray *instMethods = [DYFRuntimeProvider supplyMethodListWithClass:UITableView.class];
+NSArray *instMethods = [DYFRuntimeProvider getMethodListWithClass:UITableView.class];
 NSLog(@"========instMethods: %@", instMethods);
 ```
 
 **2. 获取一个类的所有类方法名**
 
 ```
-NSArray *clsMethods = [DYFRuntimeProvider supplyClassMethodListWithClass:UIView.class];
+NSArray *clsMethods = [DYFRuntimeProvider getClassMethodListWithClass:UIView.class];
 NSLog(@"========clsMethods: %@", clsMethods);
 ``` 
 
 ### 获取一个类的所有变量名
 
 ```
-NSArray *ivars = [DYFRuntimeProvider supplyIvarListWithClass:UIButton.class];
+NSArray *ivars = [DYFRuntimeProvider getIvarListWithClass:UIButton.class];
 NSLog(@"========ivars: %@", ivars);
 ```
 
 ### 获取一个类的所有属性名
 
 ```
-NSArray *properties = [DYFRuntimeProvider supplyPropertyListWithClass:UIButton.class];
+NSArray *properties = [DYFRuntimeProvider getPropertyListWithClass:UIButton.class];
 NSLog(@"========properties: %@", properties);
 ```
 
@@ -352,7 +353,7 @@ NSLog(@"========teacher newName: %@", teacher.name);
 
 ## 演示
 
-`DYFRuntimeProvider` 在此 [演示](https://github.com/chenxing640/DYFSwiftRuntimeProvider/raw/master/Example) 下学习如何使用。
+`DYFRuntimeProvider` 在此 [演示](https://github.com/itenfay/DYFSwiftRuntimeProvider/raw/master/Example/RuntimeExample) 下学习如何使用。
 
 
 ## 欢迎反馈

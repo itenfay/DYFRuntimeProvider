@@ -1,8 +1,8 @@
 //
 //  DYFRuntimeProvider.h
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFRuntimeProvider )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Tenfay on 2014/11/4. (https://github.com/itenfay/DYFRuntimeProvider)
+//  Copyright © 2014 Tenfay. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@
  @param cls The class you want to inspect.
  @return String array of the instance methods.
  */
-+ (NSArray *)supplyMethodListWithClass:(Class)cls;
++ (NSArray *)getMethodListWithClass:(Class)cls;
 
 /**
  To get the class methods of a class.
@@ -46,7 +46,7 @@
  @param cls The object you want to inspect.
  @return String array of the class methods.
  */
-+ (NSArray *)supplyClassMethodListWithClass:(Class)cls;
++ (NSArray *)getClassMethodListWithClass:(Class)cls;
 
 /**
  Describes the instance variables declared by a class.
@@ -54,7 +54,7 @@
  @param cls The class you want to inspect.
  @return String array of the instance variables.
  */
-+ (NSArray *)supplyIvarListWithClass:(Class)cls;
++ (NSArray *)getIvarListWithClass:(Class)cls;
 
 /**
  Describes the properties declared by a class.
@@ -62,7 +62,7 @@
  @param cls The class you want to inspect.
  @return String array of the properties.
  */
-+ (NSArray *)supplyPropertyListWithClass:(Class)cls;
++ (NSArray *)getPropertyListWithClass:(Class)cls;
 
 /**
  Returns a string describing a method's parameter and return types.
@@ -70,7 +70,7 @@
  @param method The method to inspect.
  @return  A C string. The string may be NULL.
  */
-+ (const char *)supplyMethodTypes:(Method)method;
++ (const char *)getMethodTypes:(Method)method;
 
 /**
  Reads the value of an instance variable in an object.

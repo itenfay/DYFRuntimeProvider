@@ -2,7 +2,7 @@ English Vision | [中文版](README-zh.md)
 
 ## DYFRuntimeProvider
 
-`DYFRuntimeProvider` wraps the runtime of Objective-C, and provides some common usages([Swift Version](https://github.com/chenxing640/DYFSwiftRuntimeProvider)).
+`DYFRuntimeProvider` wraps the runtime, and provides some common usages([Swift Version](https://github.com/itenfay/DYFSwiftRuntimeProvider)).
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE)&nbsp;
 [![CocoaPods Version](http://img.shields.io/cocoapods/v/DYFRuntimeProvider.svg?style=flat)](http://cocoapods.org/pods/DYFRuntimeProvider)&nbsp;
@@ -12,7 +12,7 @@ English Vision | [中文版](README-zh.md)
 ## Group (ID:614799921)
 
 <div align=left>
-&emsp; <img src="https://github.com/chenxing640/DYFRuntimeProvider/raw/master/images/g614799921.jpg" width="30%" />
+&emsp; <img src="https://github.com/itenfay/DYFRuntimeProvider/raw/master/images/g614799921.jpg" width="30%" />
 </div>
 
 
@@ -20,12 +20,15 @@ English Vision | [中文版](README-zh.md)
 
 Using [CocoaPods](https://cocoapods.org):
 
-```
-target 'Your target name'
 
+``` 
 pod 'DYFRuntimeProvider'
-or
-pod 'DYFRuntimeProvider', '~> 2.0.2.1'
+```
+
+Or
+
+```
+pod 'DYFRuntimeProvider', '~> 2.1.0'
 ```
 
 
@@ -38,28 +41,28 @@ Add `#import "DYFRuntimeProvider.h"` to your source code.
 **1. Gets all method names of an instance of a class**
 
 ```
-NSArray *instMethods = [DYFRuntimeProvider supplyMethodListWithClass:UITableView.class];
+NSArray *instMethods = [DYFRuntimeProvider getMethodListWithClass:UITableView.class];
 NSLog(@"========instMethods: %@", instMethods);
 ```
 
 **2. Gets all class method names of a class**
 
 ```
-NSArray *clsMethods = [DYFRuntimeProvider supplyClassMethodListWithClass:UIView.class];
+NSArray *clsMethods = [DYFRuntimeProvider getClassMethodListWithClass:UIView.class];
 NSLog(@"========clsMethods: %@", clsMethods);
 ```
 
 ### Gets all variable names of a class
 
 ```
-NSArray *ivars = [DYFRuntimeProvider supplyIvarListWithClass:UIButton.class];
+NSArray *ivars = [DYFRuntimeProvider getIvarListWithClass:UIButton.class];
 NSLog(@"========ivars: %@", ivars);
 ```
 
 ### Gets all the property names of a class
 
 ```
-NSArray *properties = [DYFRuntimeProvider supplyPropertyListWithClass:UIButton.class];
+NSArray *properties = [DYFRuntimeProvider getPropertyListWithClass:UIButton.class];
 NSLog(@"========properties: %@", properties);
 ```
 
@@ -353,7 +356,7 @@ NSLog(@"========teacher newName: %@", teacher.name);
 
 ## Demo
 
-`DYFRuntimeProvider` is learned how to use under this [Demo](https://github.com/chenxing640/DYFSwiftRuntimeProvider/raw/master/Example).
+`DYFRuntimeProvider` is learned how to use under this [Demo](https://github.com/itenfay/DYFSwiftRuntimeProvider/raw/master/Example/RuntimeExample).
 
 
 ## Feedback is welcome
