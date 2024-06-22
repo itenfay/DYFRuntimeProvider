@@ -1,24 +1,25 @@
-[English Vision](README.md) | 中文版
+English Vision | [中文版](README.md)
 
 ## DYFRuntimeProvider
 
-`DYFRuntimeProvider`包装了运行时，并提供了一些常见的用法([Swift Version](https://github.com/itenfay/DYFSwiftRuntimeProvider))。
+`DYFRuntimeProvider` wraps the runtime, and provides some common usages([Swift Version](https://github.com/itenfay/DYFSwiftRuntimeProvider)).
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE)&nbsp;
 [![CocoaPods Version](http://img.shields.io/cocoapods/v/DYFRuntimeProvider.svg?style=flat)](http://cocoapods.org/pods/DYFRuntimeProvider)&nbsp;
 ![CocoaPods Platform](http://img.shields.io/cocoapods/p/DYFRuntimeProvider.svg?style=flat)&nbsp;
 
 
-## QQ群 (ID:614799921)
+## Group (ID:614799921)
 
 <div align=left>
 &emsp; <img src="https://github.com/itenfay/DYFRuntimeProvider/raw/master/images/g614799921.jpg" width="30%" />
 </div>
 
 
-## 安装
+## Installation
 
-使用 [CocoaPods](https://cocoapods.org):
+Using [CocoaPods](https://cocoapods.org):
+
 
 ``` 
 pod 'DYFRuntimeProvider'
@@ -27,44 +28,45 @@ pod 'DYFRuntimeProvider'
 Or
 
 ```
-pod 'DYFRuntimeProvider', '~> 2.1.0'
+pod 'DYFRuntimeProvider', '~> 2.1.1'
 ```
 
-## 使用
 
-将 `#import "DYFRuntimeProvider.h"` 添加到源代码中。
+## Usage
 
-### 获取一个类的所有方法名
+Add `#import "DYFRuntimeProvider.h"` to your source code.
 
-**1. 获取一个类的实例的所有方法名**
+### Gets all the method names of a class
+
+**1. Gets all method names of an instance of a class**
 
 ```
 NSArray *instMethods = [DYFRuntimeProvider getMethodListWithClass:UITableView.class];
 NSLog(@"========instMethods: %@", instMethods);
 ```
 
-**2. 获取一个类的所有类方法名**
+**2. Gets all class method names of a class**
 
 ```
 NSArray *clsMethods = [DYFRuntimeProvider getClassMethodListWithClass:UIView.class];
 NSLog(@"========clsMethods: %@", clsMethods);
-``` 
+```
 
-### 获取一个类的所有变量名
+### Gets all variable names of a class
 
 ```
 NSArray *ivars = [DYFRuntimeProvider getIvarListWithClass:UIButton.class];
 NSLog(@"========ivars: %@", ivars);
 ```
 
-### 获取一个类的所有属性名
+### Gets all the property names of a class
 
 ```
 NSArray *properties = [DYFRuntimeProvider getPropertyListWithClass:UIButton.class];
 NSLog(@"========properties: %@", properties);
 ```
 
-以这个类为例，如下：
+Take this class as an example. e.g.:
 
 ```
 @interface Teacher : NSObject
@@ -109,7 +111,7 @@ NSLog(@"========properties: %@", properties);
 }
 ```
 
-### 添加一个方法
+### Adds a method
 
 ```
 void rt_eatWithFoods2(id self, SEL _cmd, NSDictionary *foods)
@@ -140,7 +142,7 @@ void rt_eatWithFoods2(id self, SEL _cmd, NSDictionary *foods)
 }
 ```
 
-### 交换两个方法
+### Exchanges two methods
 
 ```
 - (void)viewDidLoad 
@@ -157,7 +159,7 @@ void rt_eatWithFoods2(id self, SEL _cmd, NSDictionary *foods)
 }
 ```
 
-### 替换一个方法
+### Replaces a method
 
 ```
 - (void)viewDidLoad 
@@ -170,7 +172,7 @@ void rt_eatWithFoods2(id self, SEL _cmd, NSDictionary *foods)
 }
 ```
 
-### 交换两个方法（黑魔法）
+### Swizzle two methods
 
 ```
 - (void)viewDidLoad 
@@ -187,9 +189,9 @@ void rt_eatWithFoods2(id self, SEL _cmd, NSDictionary *foods)
 }
 ```
 
-### 字典和模型的转换
+### The transformation of dictionary and model
 
-**1. 字典转模型**
+**1. Converts the dictionary to model**
 
 ```
 Teacher *teacher = (Teacher *)[DYFRuntimeProvider asObjectWithDictionary:@{@"name": @"高粟", @"age": @26, @"address": @"xx市xx"} forClass:Teacher.class];
@@ -202,16 +204,16 @@ Teacher *teacher2 = [[Teacher alloc] init];
 NSLog(@"========teacher2: %@, %@, %ld, %@", teacher2, teacher2.name, (long)teacher2.age, teacher2.address);
 ```
 
-**2. 模型转字典**
+**2. Converts the model to dictionary**
 
 ```
 NSDictionary *dict = [DYFRuntimeProvider asDictionaryWithObject:teacher];
 NSLog(@"========dict: %@", dict);
 ```
 
-### 归档解档
+### Archives and unarchives
 
-以这个类为例，如下：
+Take this class as an example. e.g.:
 
 ```
 @interface Transaction : NSObject <NSCoding>
@@ -240,13 +242,13 @@ NSLog(@"========dict: %@", dict);
 @end
 ```
 
-**1. 归档**
+**1. Archives**
 
 ```
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) lastObject];
     NSString *filePath = [documentPath stringByAppendingPathComponent:@"Transaction.data"];
     [self archive:filePath];
 }
@@ -271,13 +273,13 @@ Or
 @end
 ```
 
-**2. 解档**
+**2. Unarchives**
 
 ```
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) lastObject];
     NSString *filePath = [documentPath stringByAppendingPathComponent:@"Transaction.data"];
     [self unarchive:filePath];
 }
@@ -305,7 +307,7 @@ Or
 @end
 ```
 
-### 添加一个分类属性
+### Add a catogory property
 
 ```
 @interface UIApplication (Pt)
@@ -340,7 +342,8 @@ static NSString *kTeacherKey = @"TeacherKey";
 }
 ```
 
-### 获取和修改实例变量属性
+
+### Get and modify instance variable property.
 
 ```
 Teacher *teacher = (Teacher *)[DYFRuntimeProvider asObjectWithDictionary:@{@"name": @"高粟", @"age": @26, @"address": @"xx市xx"} forClass:Teacher.class];
@@ -351,11 +354,11 @@ NSLog(@"========teacher newName: %@", teacher.name);
 ```
 
 
-## 演示
+## Demo
 
-`DYFRuntimeProvider` 在此 [演示](https://github.com/itenfay/DYFSwiftRuntimeProvider/raw/master/Example/RuntimeExample) 下学习如何使用。
+`DYFRuntimeProvider` is learned how to use under this [Demo](https://github.com/itenfay/DYFSwiftRuntimeProvider/raw/master/Example/RuntimeExample).
 
 
-## 欢迎反馈
+## Feedback is welcome
 
-如果你注意到任何问题被卡住，请创建一个问题。我乐意帮助你。
+If you notice any issue to create an issue. I will be happy to help you.

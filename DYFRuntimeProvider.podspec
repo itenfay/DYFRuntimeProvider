@@ -1,12 +1,11 @@
 
 Pod::Spec.new do |spec|
-
   spec.name         = "DYFRuntimeProvider"
-  spec.version      = "2.1.0"
+  spec.version      = "2.1.1"
   spec.summary      = "DYFRuntimeProvider wraps the runtime, and provides some common usages."
 
   spec.description  = <<-DESC
-  DYFRuntimeProvider wraps the runtime, and provides some common usages.
+  TODU: DYFRuntimeProvider wraps the runtime, and provides some common usages.
   DESC
 
   spec.homepage       = "https://github.com/itenfay/DYFRuntimeProvider"
@@ -14,9 +13,9 @@ Pod::Spec.new do |spec|
 
   spec.license      = { :type => "MIT", :file => "LICENSE" }
 
-  spec.author             = { "Tenfay" => "hansen981@126.com" }
+  spec.author             = { "Tenfay" => "itenfay@163.com" }
   # Or just: spec.author    = "Tenfay"
-  # spec.authors            = { "Tenfay" => "hansen981@126.com" }
+  # spec.authors            = { "Tenfay" => "itenfay@163.com" }
   # spec.social_media_url   = "https://twitter.com/Tenfay"
 
   # spec.platform     = :ios
@@ -42,5 +41,4 @@ Pod::Spec.new do |spec|
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
-
 end
